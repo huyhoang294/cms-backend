@@ -3,6 +3,7 @@ const Cabinet = require("../../models/cabinet");
 const Station = require("../../models/station");
 
 router.get("/", (req, res) => {
+  console.log("oke")
   let result = {
     data: {},
   };
