@@ -6,7 +6,9 @@ router.get("/", (req, res) => {
   let result = {
     data: {},
   };
-  Cabinet.find((err, cabinets) => {
+  Cabinet.find()
+    .populate("station_id", "placename")
+    .exec((err, cabinets) => {
       if (err) {
         console.log("Error: " + err);
       } else {
