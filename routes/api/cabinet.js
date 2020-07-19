@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
   let result = {
     data: {},
   };
-  Cabinet.find().exec((err, cabinets) => {
+  Cabinet.find((err, cabinets) => {
       if (err) {
         console.log("Error: " + err);
       } else {
