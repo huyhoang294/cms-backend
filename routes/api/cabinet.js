@@ -6,13 +6,10 @@ router.get("/", (req, res) => {
   let result = {
     data: {},
   };
-  Cabinet.find()
-    .populate("station_id")
-    .exec((err, cabinets) => {
+  Cabinet.find().exec((err, cabinets) => {
       if (err) {
         console.log("Error: " + err);
       } else {
-
         result.total = cabinets.length;
         result.data = cabinets;
         res.json(result);
