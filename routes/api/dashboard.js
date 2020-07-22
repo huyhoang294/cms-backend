@@ -49,20 +49,19 @@ router.get("/", (req, res) => {
           result.user.online = stateUsers.length;
           Station.find((err, stations) => {
             var activeStations = [];
-            var stations = [];
+            var stationlist = [];
             if (err) {
               console.log("Error: " + err);
             } else {
               result.station.total = stations.length;
               for (let i = 0; i < stations.length; i++) {
-                stations.push({placeName: stations[i].placename,location: stations[i].location, stationId: stations[i]._id})
-                console.log(stations);
+                stationlist.push({placeName: stations[i].placename,location: stations[i].location, stationId: stations[i]._id});
                 if (stations[i].active) {
                   activeStations.push(stations[i]);
                 }
               }
               result.station.active = activeStations.length;
-              result.station.listStation = stations;
+              result.station.listStation = stationlist;
               res.json(result);
             }
           });
