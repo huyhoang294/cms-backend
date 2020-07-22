@@ -55,7 +55,7 @@ router.get("/", (req, res) => {
             } else {
               result.station.total = stations.length;
               for (let i = 0; i < stations.length; i++) {
-                stations.push({station: stations[i].placename + " " + stations[i].location, stationId: stations[i]._id})
+                stations.push({placeName: stations[i].placename,location: stations[i].location, stationId: stations[i]._id})
                 if (stations[i].active) {
                   activeStations.push(stations[i]);
                 }
