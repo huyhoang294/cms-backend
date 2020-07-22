@@ -150,7 +150,7 @@ router.get("/chart", (req, res) => {
     twentythree: 0,
   };
 
-  const beginOfDate = moment(req.query.date).format('DD-MM-YYYY 00:00');
+  const beginOfDate = moment(req.query.date).format('DD-MM-YYYY');
   // const endOfDate = moment(req.query.date).format('YYYY-MM-DD 23:59').unix();
 console.log(beginOfDate);
 // console.log(beginOfDate);
