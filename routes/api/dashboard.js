@@ -55,7 +55,11 @@ router.get("/", (req, res) => {
             } else {
               result.station.total = stations.length;
               for (let i = 0; i < stations.length; i++) {
-                stationlist.push({placeName: stations[i].placename,location: stations[i].location, stationId: stations[i]._id});
+                stationlist.push({
+                  placeName: stations[i].placename,
+                  location: stations[i].location,
+                  stationId: stations[i]._id,
+                });
                 if (stations[i].active) {
                   activeStations.push(stations[i]);
                 }
@@ -118,7 +122,6 @@ router.get("/station", (req, res) => {
     });
 });
 
-
 router.get("/chart", (req, res) => {
   let result = {
     zero: 0,
@@ -146,117 +149,122 @@ router.get("/chart", (req, res) => {
     twentyTwo: 0,
     twentythree: 0,
   };
-  
-  const beginOfDate = moment(req.query.date).startOf('day').unix();
-  const endOfDate = moment(req.query.date).endOf('day').unix();
 
+  const beginOfDate = moment(req.query.date).startOf("day").unix();
+  const endOfDate = moment(req.query.date).endOf("day").unix();
+console.log(beginOfDate);
+console.log(endOfDate);
   const stationId = req.query.stationId;
-  Open_log.find({station_id: stationId}, (err, logs) => {
-      if (err) {
-        console.log("Error: " + err);
-      } else {
-        for(var i; i < logs.length; i++) {
-          if(moment(logs[i].open_time).get('hour') == 0) {
+  Open_log.find({ station_id: stationId }, (err, logs) => {
+    if (err) {
+      console.log("Error: " + err);
+    } else {
+      for (var i; i < logs.length; i++) {
+        if (
+          moment(logs[i].open_time).unix() > beginOfDate &&
+          moment(logs[i].open_time).unix() < endOfDate
+        ) {
+          if (moment(logs[i].open_time).get("hour") == 0) {
             result.zero = result.zero + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 1) {
+          if (moment(logs[i].open_time).get("hour") == 1) {
             result.one = result.one + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 2) {
+          if (moment(logs[i].open_time).get("hour") == 2) {
             result.two = result.two + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 3) {
+          if (moment(logs[i].open_time).get("hour") == 3) {
             result.three = result.three + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 4) {
+          if (moment(logs[i].open_time).get("hour") == 4) {
             result.four = result.four + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 5) {
+          if (moment(logs[i].open_time).get("hour") == 5) {
             result.five = result.five + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 6) {
+          if (moment(logs[i].open_time).get("hour") == 6) {
             result.six = result.six + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 7) {
+          if (moment(logs[i].open_time).get("hour") == 7) {
             result.seven = result.seven + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 8) {
+          if (moment(logs[i].open_time).get("hour") == 8) {
             result.eight = result.eight + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 9) {
+          if (moment(logs[i].open_time).get("hour") == 9) {
             result.nine = result.nine + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 10) {
+          if (moment(logs[i].open_time).get("hour") == 10) {
             result.ten = result.ten + 1;
           }
-          
-          if(moment(logs[i].open_time).get('hour') == 11) {
+
+          if (moment(logs[i].open_time).get("hour") == 11) {
             result.eleven = result.eleven + 1;
           }
-          
-          if(moment(logs[i].open_time).get('hour') == 12) {
+
+          if (moment(logs[i].open_time).get("hour") == 12) {
             result.twelve = result.twelve + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 13) {
+          if (moment(logs[i].open_time).get("hour") == 13) {
             result.thirdteen = result.thirdteen + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 14) {
+          if (moment(logs[i].open_time).get("hour") == 14) {
             result.fourteen = result.fourteen + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 15) {
+          if (moment(logs[i].open_time).get("hour") == 15) {
             result.fifteen = result.fifteen + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 16) {
+          if (moment(logs[i].open_time).get("hour") == 16) {
             result.sixteen = result.sixteen + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 17) {
+          if (moment(logs[i].open_time).get("hour") == 17) {
             result.seventeen = result.seventeen + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 18) {
+          if (moment(logs[i].open_time).get("hour") == 18) {
             result.eighteen = result.eighteen + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 19) {
+          if (moment(logs[i].open_time).get("hour") == 19) {
             result.nineteen = result.nineteen + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 20) {
+          if (moment(logs[i].open_time).get("hour") == 20) {
             result.twenty = result.twenty + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 21) {
+          if (moment(logs[i].open_time).get("hour") == 21) {
             result.twentyOne = result.twentyOne + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 22) {
+          if (moment(logs[i].open_time).get("hour") == 22) {
             result.twentyTwo = result.twentyTwo + 1;
           }
 
-          if(moment(logs[i].open_time).get('hour') == 23) {
+          if (moment(logs[i].open_time).get("hour") == 23) {
             result.twentythree = result.twentythree + 1;
           }
         }
-
-        res.json(result);
       }
+
+      res.json(result);
     }
-  );
+  });
 });
 
 module.exports = router;
