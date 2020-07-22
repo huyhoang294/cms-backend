@@ -150,9 +150,9 @@ router.get("/chart", (req, res) => {
     twentythree: 0,
   };
 
-  const beginOfDate = moment(req.query.date).format('DD-MM-YYYY');
+  // const beginOfDate = moment(req.query.date);
   // const endOfDate = moment(req.query.date).format('YYYY-MM-DD 23:59').unix();
-console.log(beginOfDate);
+console.log(req.query.date);
 // console.log(beginOfDate);
   const stationId = req.query.stationId;
   Open_log.find({ station_id: stationId }, (err, logs) => {
