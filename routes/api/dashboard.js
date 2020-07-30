@@ -139,12 +139,13 @@ router.get("/chart", (req, res) => {
         result.push(
           new Promise((resolve, reject) => {
             Open_log.find({ station_id: stations[i]._id }, (err, logs) => {
+              console.log(logs.length);
               resolve(logs.length);
             });
           })
         );
       }
-  
+      console.log(result);
       Promise.all(result).then(values => {
         console.log(values);
       })
