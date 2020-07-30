@@ -136,7 +136,7 @@ router.get("/chart", (req, res) => {
     var countOpen = new Promise((resolve, reject) => {
       let result = [];
       for (var i; i < stations.length; i++) {
-        console.log(stations[i]._id);
+        console.log("Station_ID: " + stations[i]._id);
         result.push(
           new Promise((resolve, reject) => {
             Open_log.find({ station_id: stations[i]._id }, (err, logs) => {
