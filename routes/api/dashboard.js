@@ -144,9 +144,9 @@ router.get("/chart", (req, res) => {
           })
         );
       }
-
+  
       Promise.all(result).then(values => {
-        console.log(vaues);
+        console.log(values);
       })
     });
   });
