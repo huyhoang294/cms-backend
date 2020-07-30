@@ -135,21 +135,17 @@ router.get("/chart", (req, res) => {
   findStations.then((stations) => {
     var countOpen = new Promise((resolve, reject) => {
       let result = [];
-      console.log("Station length: " + stations.length);
       for (var i = 0; i < stations.length; i++) {
-        console.log("Station_ID");
         result.push(
           new Promise((resolve, reject) => {
             Open_log.find({ station_id: stations[i]._id }, (err, logs) => {
-              console.log(logs.length);
-              resolve(logs.length);
+              resolve({argument: stations[i].placeName+" "+stations[i].location, value: logs.length});
             });
           })
         );
       }
-      console.log(result);
       Promise.all(result).then(values => {
-        console.log(values);
+        res.json(values);
       })
     });
   });
