@@ -138,10 +138,10 @@ router.get("/chart", (req, res) => {
       for (var i = 0; i < stations.length; i++) {
         result.push(
           new Promise((resolve, reject) => {
+            var stationName = stations[i].placename + " " + stations[i].location;
             Open_log.find({ station_id: stations[i]._id }, (err, logs) => {
-              console.log(stations[i]);
               resolve({
-                argument: stations[i].placename + " " + stations[i].location,
+                argument: stationName,
                 value: logs.length,
               });
             });
