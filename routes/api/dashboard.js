@@ -134,6 +134,7 @@ router.get("/chart", (req, res) => {
   });
   findStations.then((stations) => {
     var countOpen = new Promise((resolve, reject) => {
+      console.log(stations);
       let result = [];
       for (var i; i < stations.length; i++) {
         result.push(
