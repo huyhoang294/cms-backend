@@ -122,6 +122,16 @@ router.get("/station", (req, res) => {
     });
 });
 
+function simplifyName(name){
+  var words = name.split(" ");
+  var result = "";
+  for (var i = 0; i < words.length; i++) {
+    result += words[i].substring(0,1).toUpperCase();
+  }
+  return result; 
+
+}
+
 router.get("/chart", (req, res) => {
   var findStations = new Promise((resolve, reject) => {
     Station.find((err, stations) => {
@@ -138,7 +148,7 @@ router.get("/chart", (req, res) => {
       for (var i = 0; i < stations.length; i++) {
         result.push(
           new Promise((resolve, reject) => {
-            var stationName = stations[i].placename /*+ "-" + stations[i].location + "-" + stations[i].no*/;
+            var stationName = simplifyName(stations[i].placename) + "-" + stations[i].location + "-" + stations[i].no;
             Open_log.find({ station_id: stations[i]._id }, (err, logs) => {
               resolve({
                 argument: stationName,
