@@ -138,7 +138,7 @@ router.get("/chart", (req, res) => {
       for (var i = 0; i < stations.length; i++) {
         result.push(
           new Promise((resolve, reject) => {
-            var stationName = stations[i].placename + "-" + stations[i].location + "-" + stations[i].no;
+            var stationName = stations[i].placename /*+ "-" + stations[i].location + "-" + stations[i].no*/;
             Open_log.find({ station_id: stations[i]._id }, (err, logs) => {
               resolve({
                 argument: stationName,
