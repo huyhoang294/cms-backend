@@ -139,14 +139,17 @@ router.get("/chart", (req, res) => {
         result.push(
           new Promise((resolve, reject) => {
             Open_log.find({ station_id: stations[i]._id }, (err, logs) => {
-              resolve({argument: stations[i].placeName+" "+stations[i].location, value: logs.length});
+              resolve({
+                argument: stations[i].placename + " " + stations[i].location,
+                value: logs.length,
+              });
             });
           })
         );
       }
-      Promise.all(result).then(values => {
+      Promise.all(result).then((values) => {
         res.json(values);
-      })
+      });
     });
   });
 });
