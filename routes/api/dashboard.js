@@ -3,6 +3,7 @@ const Cabinet = require("../../models/cabinet");
 const User = require("../../models/user");
 const Station = require("../../models/station");
 const Open_log = require("../../models/open_log");
+const Payment = require("../../models/payment");
 const moment = require("moment");
 
 router.get("/", (req, res) => {
@@ -10,6 +11,7 @@ router.get("/", (req, res) => {
     cabinet: {},
     user: {},
     station: {},
+    profit: {},
   };
 
   Cabinet.find((err, cabinets) => {
@@ -55,18 +57,31 @@ router.get("/", (req, res) => {
             } else {
               result.station.total = stations.length;
               for (let i = 0; i < stations.length; i++) {
-                stationlist.push({
-                  placeName: stations[i].placename,
-                  location: stations[i].location,
-                  stationId: stations[i]._id,
-                });
+                // stationlist.push({
+                //   placeName: stations[i].placename,
+                //   location: stations[i].location,
+                //   stationId: stations[i]._id,
+                // });
                 if (stations[i].active) {
                   activeStations.push(stations[i]);
                 }
               }
               result.station.active = activeStations.length;
-              result.station.listStation = stationlist;
-              res.json(result);
+              // result.station.listStation = stationlist;
+              Payment.find((err, payments) => {
+                var total = 0;
+                if (err) {
+                  console.log("Error: " + err);
+                } else {
+                  for (let i = 0; i < payments.length; i++) {
+                    if (payments[i].cost) {
+                      total += payments[i].cost*1;
+                    }
+                  }
+                  result.profit.total = total;
+                  res.json(result);
+                }
+              });
             }
           });
         }
@@ -122,24 +137,22 @@ router.get("/station", (req, res) => {
     });
 });
 
-function simplifyName(name){
+function simplifyName(name) {
   var words = name.split(" ");
   var result = "";
   for (var i = 0; i < words.length; i++) {
-    result += words[i].substring(0,1).toUpperCase();
+    result += words[i].substring(0, 1).toUpperCase();
   }
-  return result; 
-
+  return result;
 }
 
-function simplifySubName(name){
+function simplifySubName(name) {
   var words = name.split(" ");
   var result = "";
   for (var i = 0; i < words.length; i++) {
-    result += words[i].substring(0,2).toUpperCase();
+    result += words[i].substring(0, 2).toUpperCase();
   }
-  return result; 
-
+  return result;
 }
 
 router.get("/chart", (req, res) => {
@@ -158,7 +171,12 @@ router.get("/chart", (req, res) => {
       for (var i = 0; i < stations.length; i++) {
         result.push(
           new Promise((resolve, reject) => {
-            var stationName = simplifyName(stations[i].placename) + "-" + simplifySubName(stations[i].location) + "-" + stations[i].no;
+            var stationName =
+              simplifyName(stations[i].placename) +
+              "-" +
+              simplifySubName(stations[i].location) +
+              "-" +
+              stations[i].no;
             Open_log.find({ station_id: stations[i]._id }, (err, logs) => {
               resolve({
                 argument: stationName,
