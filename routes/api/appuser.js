@@ -67,6 +67,7 @@ router.get("/log", (req, res) => {
 
   const id = req.query.userId;
   Authorize_log.find({ owner_id: id })
+    .populate("owner_id", "email")
     .populate("authorize_id", "email")
     .populate("box_id", "no")
     .populate("station_id", "no")
@@ -76,6 +77,7 @@ router.get("/log", (req, res) => {
       } else {
         result.data.authLogs = authLogs;
         Open_log.find({ user_id: id })
+          .populate("user_id", "email")
           .populate("box_id", "no")
           .populate("station_id", "no")
           .exec((err, openLogs) => {
@@ -84,6 +86,7 @@ router.get("/log", (req, res) => {
             } else {
               result.data.openLogs = openLogs;
               Order.find({ user_id: id })
+                .populate("user_id", "email")
                 .populate("box_id", "no")
                 .populate("station_id", "no")
                 .exec((err, orderLogs) => {
