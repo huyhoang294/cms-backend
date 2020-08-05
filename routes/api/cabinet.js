@@ -6,7 +6,7 @@ const Open_log = require("../../models/open_log");
 const Order = require("../../models/order");
 
 router.get("/", (req, res) => {
-  console.log("oke")
+  console.log("oke");
   let result = {
     data: {},
   };
@@ -33,7 +33,7 @@ router.get("/log", (req, res) => {
     .populate("owner_id", "email")
     .populate("authorize_id", "email")
     .populate("box_id", "no")
-    .populate("station_id", "no")
+    .populate("station_id", "placename", "location", "no")
     .exec((err, authLogs) => {
       if (err) {
         console.log("Error: " + err);
@@ -42,7 +42,7 @@ router.get("/log", (req, res) => {
         Open_log.find({ box_id: id })
           .populate("user_id", "email")
           .populate("box_id", "no")
-          .populate("station_id", "no")
+          .populate("station_id", "placename", "location", "no")
           .exec((err, openLogs) => {
             if (err) {
               console.log("Error: " + err);
@@ -51,7 +51,7 @@ router.get("/log", (req, res) => {
               Order.find({ box_id: id })
                 .populate("user_id", "email")
                 .populate("box_id", "no")
-                .populate("station_id", "no")
+                .populate("station_id", "placename", "location", "no")
                 .exec((err, orderLogs) => {
                   if (err) {
                     console.log("Error: " + err);
