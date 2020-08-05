@@ -66,17 +66,17 @@ router.get("/log", (req, res) => {
   };
 
   const id = req.query.userId;
-  Authorize_log.find({ owner_id: id }, (authLogs, err) => {
+  Authorize_log.find({ owner_id: id }, ( err, authLogs) => {
     if (err) {
       console.log("Error: " + err);
     } else {
       result.data.authLogs = authLogs;
-      Open_log.find({ user_id: id }, (openLogs, err) => {
+      Open_log.find({ user_id: id }, (err, openLogs) => {
         if (err) {
           console.log("Error: " + err);
         } else {
           result.data.openLogs = openLogs;
-          Order.find({ user_id: id }, (orderLogs, err) => {
+          Order.find({ user_id: id }, (err, orderLogs) => {
             if (err) {
               console.log("Error: " + err);
             } else {
