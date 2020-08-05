@@ -112,7 +112,7 @@ router.get("/listener", (req, res) => {
     userListen.close();
   });
 
-  res.setTimeout(5000, () => {
+  res.setTimeout(3000, () => {
     if (!flag) {
       res.json(false);
       userListen.close();

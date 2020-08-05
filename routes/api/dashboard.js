@@ -94,6 +94,7 @@ router.get("/listener", (req, res) => {
   let userListen = User.watch();
   let cabinetListen = Cabinet.watch();
   let stationListen = Station.watch();
+  let paymentListen = Payment.watch();
   let flag = false;
   userListen.on("change", (response) => {
     flag = true;
@@ -107,14 +108,22 @@ router.get("/listener", (req, res) => {
     flag = true;
     stationListen.close();
   });
-
-  res.setTimeout(5000, () => {
+  paymentListen.on("change", (response) => {
+    flag = true;
+    paymentListen.close();
+  });
+  res.setTimeout(3000, () => {
     if (!flag) {
       res.json(false);
       userListen.close();
       cabinetListen.close();
       stationListen.close();
+      paymentListen.close();
     } else {
+      userListen.close();
+      cabinetListen.close();
+      stationListen.close();
+      paymentListen.close();
       res.json(true);
     }
   });
