@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
     });
 });
 
-Router.get("/log", (req, res) => {
+router.get("/log", (req, res) => {
   let result = {
     data: {},
   };
