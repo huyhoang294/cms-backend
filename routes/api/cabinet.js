@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
     });
 });
 
-outer.get("/log", (req, res) => {
+Router.get("/log", (req, res) => {
   let result = {
     data: {},
   };
