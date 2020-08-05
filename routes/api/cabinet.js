@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const Cabinet = require("../../models/cabinet");
 const Station = require("../../models/station");
+const Authorize_log = require("../../models/authorize_log");
+const Open_log = require("../../models/open_log");
+const Order = require("../../models/order");
 
 router.get("/", (req, res) => {
   console.log("oke")
@@ -16,6 +19,49 @@ router.get("/", (req, res) => {
         result.total = cabinets.length;
         result.data = cabinets;
         res.json(result);
+      }
+    });
+});
+
+outer.get("/log", (req, res) => {
+  let result = {
+    data: {},
+  };
+
+  const id = req.query.cabinetId;
+  Authorize_log.find({ box_id: id })
+    .populate("owner_id", "email")
+    .populate("authorize_id", "email")
+    .populate("box_id", "no")
+    .populate("station_id", "no")
+    .exec((err, authLogs) => {
+      if (err) {
+        console.log("Error: " + err);
+      } else {
+        result.data.authLogs = authLogs;
+        Open_log.find({ box_id: id })
+          .populate("user_id", "email")
+          .populate("box_id", "no")
+          .populate("station_id", "no")
+          .exec((err, openLogs) => {
+            if (err) {
+              console.log("Error: " + err);
+            } else {
+              result.data.openLogs = openLogs;
+              Order.find({ box_id: id })
+                .populate("user_id", "email")
+                .populate("box_id", "no")
+                .populate("station_id", "no")
+                .exec((err, orderLogs) => {
+                  if (err) {
+                    console.log("Error: " + err);
+                  } else {
+                    result.data.orderLogs = orderLogs;
+                    res.json(result);
+                  }
+                });
+            }
+          });
       }
     });
 });
