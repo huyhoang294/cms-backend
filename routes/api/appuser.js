@@ -1,4 +1,7 @@
 const User = require("../../models/user");
+const Authorize_log = require("../../models/authorize_log");
+const Open_log = require("../../models/open_log");
+const Order = require("../../models/order");
 const router = require("express").Router();
 
 router.get("/", (req, res) => {
@@ -11,6 +14,7 @@ router.get("/", (req, res) => {
     } else {
       result.total = users.length;
       result.data = users;
+
       res.json(result);
     }
   });
@@ -54,6 +58,36 @@ router.get("/search", (req, res) => {
       }
     }
   );
+});
+
+router.get("/log", (req, res) => {
+  let result = {
+    data: {},
+  };
+
+  const id = req.query.userId;
+  Authorize_log.find({ _id: id }, (authLogs, err) => {
+    if (err) {
+      console.log("Error: " + err);
+    } else {
+      result.data.authLogs = authLogs;
+      Open_log.find({ _id: id }, (openLogs, err) => {
+        if (err) {
+          console.log("Error: " + err);
+        } else {
+          result.data.openLogs = openLogs;
+          Order.find({ _id: id }, (orderLogs, err) => {
+            if (err) {
+              console.log("Error: " + err);
+            } else {
+              result.data.orderLogs = orderLogs;
+              res.json(result);
+            }
+          });
+        }
+      });
+    }
+  });
 });
 
 router.get("/listener", (req, res) => {
