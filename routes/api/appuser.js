@@ -66,28 +66,38 @@ router.get("/log", (req, res) => {
   };
 
   const id = req.query.userId;
-  Authorize_log.find({ owner_id: id }, ( err, authLogs) => {
-    if (err) {
-      console.log("Error: " + err);
-    } else {
-      result.data.authLogs = authLogs;
-      Open_log.find({ user_id: id }, (err, openLogs) => {
-        if (err) {
-          console.log("Error: " + err);
-        } else {
-          result.data.openLogs = openLogs;
-          Order.find({ user_id: id }, (err, orderLogs) => {
+  Authorize_log.find({ owner_id: id })
+    .populate("authorize_id", "email")
+    .populate("box_id", "no")
+    .populate("station_id", "no")
+    .exec((err, authLogs) => {
+      if (err) {
+        console.log("Error: " + err);
+      } else {
+        result.data.authLogs = authLogs;
+        Open_log.find({ user_id: id })
+          .populate("box_id", "no")
+          .populate("station_id", "no")
+          .exec((err, openLogs) => {
             if (err) {
               console.log("Error: " + err);
             } else {
-              result.data.orderLogs = orderLogs;
-              res.json(result);
+              result.data.openLogs = openLogs;
+              Order.find({ user_id: id })
+                .populate("box_id", "no")
+                .populate("station_id", "no")
+                .exec((err, orderLogs) => {
+                  if (err) {
+                    console.log("Error: " + err);
+                  } else {
+                    result.data.orderLogs = orderLogs;
+                    res.json(result);
+                  }
+                });
             }
           });
-        }
-      });
-    }
-  });
+      }
+    });
 });
 
 router.get("/listener", (req, res) => {
