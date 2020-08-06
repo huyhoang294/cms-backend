@@ -38,12 +38,12 @@ mongoose.connect(db,
 console.log()
 app.use(passport.initialize());
 app.use('/api/users', usersRouter);
-// app.use('/api/dashboard', passport.authenticate('jwt', {session: false}), dashboardRouter);
-// app.use('/api/appuser', passport.authenticate('jwt', {session: false}), appuserRouter);
-// app.use('/api/cabinet', passport.authenticate('jwt', {session: false}), cabinetRouter);
-app.use('/api/dashboard',dashboardRouter);
-app.use('/api/appuser',appuserRouter);
-app.use('/api/cabinet',cabinetRouter);
+app.use('/api/dashboard', passport.authenticate('jwt', {session: false}), dashboardRouter);
+app.use('/api/appuser', passport.authenticate('jwt', {session: false}), appuserRouter);
+app.use('/api/cabinet', passport.authenticate('jwt', {session: false}), cabinetRouter);
+// app.use('/api/dashboard',dashboardRouter);
+// app.use('/api/appuser',appuserRouter);
+// app.use('/api/cabinet',cabinetRouter);
 // app.use('/api/station',stationRouter);
 
 app.listen(port, () => {
